@@ -1,14 +1,13 @@
 import Buyable from './Buyable';
+import Info from './Info';
 
-export default class Movie implements Buyable {
-    constructor(
-        readonly id: number,
-        readonly name: string,
-        readonly year: number,
-        readonly price: number,
-        readonly country: string,
-        readonly time: number,
-        readonly slogan: string,
-        readonly genre: string,
-    ) { }
+
+export default class Movie implements Buyable, Info {
+  constructor(
+    readonly id: number,
+    readonly name: string,
+    readonly price: number,
+    readonly info: any,
+    readonly isMultiple: boolean = false,    
+  ) { }
 }

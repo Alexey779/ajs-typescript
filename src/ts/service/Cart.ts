@@ -1,29 +1,33 @@
 import Buyable from '../domain/Buyable';
 
 export default class Cart {
-    private _items: Buyable[] = [];
+  private _items: Buyable[] = [];
 
-    add(item: Buyable): void {
-        this._items.push(item);
-    }
+  add(item: any): void {
+    const id = item.id;
+    const isInList = this.items.find((item) => item.id === id);
 
-    get items(): Buyable[] {
-        return [...this._items]; 
+    if (isInList && item.isMultiple === false) {
+      return;
     }
-    sum(): number {
-        let sum: number = 0;
-        this._items.forEach((item: Buyable) => sum += item.price);
-        return sum;
-    }
+    
+    this._items.push(item);
+  }
 
-    totalSum(discount: number): number {
-        let bestOffer: number = 0;
-        bestOffer = this.sum() * (1 - discount / 100);
-        return bestOffer;
-    }
+  get items(): Buyable[] {
+    return [...this._items]; 
+  }
 
-    removeItem(id: number): void {
-        const idx: number = this._items.findIndex((item: Buyable) => item.id === id);
-        this._items.splice(idx, 1);
-    }
+  getCartPrice(discount = 0): number {
+    const items = this.items;    	
+    const sumOfPrices = items.reduce((curr, item) => curr + item.price, 0);
+
+    const countedPrice = sumOfPrices * (1 - discount / 100 );
+  
+    return countedPrice;
+  }
+
+  removeItem(id: number): void {
+    this._items = this._items.filter((item) => item.id !== id);
+  }
 }

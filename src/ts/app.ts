@@ -8,6 +8,12 @@ console.log(cart.items);
 
 cart.add(new Book(1001, 'War and Piece', 'Leo Tolstoy', 2000, 1225));
 cart.add(new MusicAlbum(1008, 'Meteora', 'Linkin Park', 900));
-cart.add(new Movie(1010, 'The Avengers', 2012, 550, 'USA', 137, 'Avengers Assemble!', 'фантистика, боевик, фэнтези, приключения'));
+
+cart.add(new Movie(1010, 'The Shining', 400, {country: ['USA', 'Great Britain'], duration: 144}));
+
+console.log(cart.items);
+
+cart.add(new Movie(1010, 'The Shining', 400, {country: ['USA', 'Great Britain'], duration: 144}));
+cart.add(new Book(1001, 'War and Piece', 'Leo Tolstoy', 2000, 1225));
 
 console.log(cart.items);

@@ -1,107 +1,40 @@
 import Cart from '../service/Cart';
-import Buyable from '../domain/Buyable';
 
 test('new card should be empty', () => {
   const cart = new Cart();
+
   expect(cart.items.length).toBe(0);
 });
 
-test('to check that new product is added into cart', () => {  
+test('Price without discount must return sum of prices', () => {
   const cart = new Cart();
-  const book: Buyable = {
-    id: 84,
-    name: "Dog trainings",
-    price: 850,
-  };
-  cart.add(book);
-  const result: Buyable[] = [
-    {
-      id: 84,
-      name: "Dog trainings",
-      price: 850,
-    },
-  ];
-  expect(cart.items).toEqual(result);
+
+  cart.add({price: 2000, name: 'One', id: 10, isMultiple: true});
+  cart.add({price: 1000, name: 'Two', id: 11, isMultiple: true});
+
+  const countedPrice = cart.getCartPrice();
+
+  expect(countedPrice).toBe(3000);
 });
 
-test('to check that method sum() reverts the total price', () => {
+test('Price with discount must return sum of prices with discount', () => {
   const cart = new Cart();
-  const book: Buyable = {
-    id: 84,
-    name: "Dog trainings",
-    price: 850,
-  };
-  cart.add(book);
-  const book2: Buyable = {
-    id: 71,
-    name: "Dog meals",
-    price: 650,
-  };
-  const book3: Buyable = {
-    id: 31,
-    name: "guide-dog",
-    price: 800,
-  };
-  cart.add(book2);
-  cart.add(book3);
-  expect(cart.sum()).toBe(2300);
+
+  cart.add({price: 2000, name: 'One', id: 10, isMultiple: true});
+  cart.add({price: 1000, name: 'Two', id: 11, isMultiple: true});
+
+  const countedPrice = cart.getCartPrice(10);
+
+  expect(countedPrice).toBe(2700);
 });
 
-test('to check that sum discount is applied via method totalSum()', () => {
+test('List of items shold be length of 1', () => {
   const cart = new Cart();
-  const book: Buyable = {
-    id: 84,
-    name: "Dog trainings",
-    price: 850,
-  };
-  cart.add(book);
-  const book2: Buyable = {
-    id: 71,
-    name: "Dog meals",
-    price: 650,
-  };
-  const book3: Buyable = {
-    id: 31,
-    name: "guide-dog",
-    price: 800,
-  };
-  cart.add(book2);
-  cart.add(book3);
-  expect(cart.totalSum(10)).toBe(2070);
-});
 
-test('to check that method removeItem() deletes the product by id', () => {
-  const cart = new Cart();
-  const book: Buyable = {
-    id: 84,
-    name: "Dog trainings",
-    price: 850,
-  };
-  cart.add(book);
-  const book2: Buyable = {
-    id: 71,
-    name: "Dog meals",
-    price: 650,
-  };
-  const book3: Buyable = {
-    id: 31,
-    name: "guide-dog",
-    price: 800,
-  };
-  cart.add(book2);
-  cart.add(book3);
-  cart.removeItem(31);
-  const result2: Buyable[] = [
-    {
-      id: 84,
-      name: "Dog trainings",
-      price: 850,
-    },
-    {
-      id: 71,
-      name: "Dog meals",
-      price: 650,
-    },
-  ];    
-  expect(cart.items).toEqual(result2);
+  cart.add({price: 2000, name: 'One', id: 10, isMultiple: true});
+  cart.add({price: 1000, name: 'Two', id: 11, isMultiple: true});
+
+  cart.removeItem(10);
+
+  expect(cart.items.length).toBe(1);
 });
